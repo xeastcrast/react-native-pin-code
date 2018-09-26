@@ -168,6 +168,7 @@ class CodePin extends Component {
       obfuscation,
       containerStyle,
       containerPinStyle,
+      passwordText,
       ...props
     } = this.props;
 
@@ -176,7 +177,7 @@ class CodePin extends Component {
       const id = index;
       const value = this.state.code[id]
         ? obfuscation
-          ? '*'
+          ? passwordText
           : this.state.code[id].toString()
         : '';
       pins.push(
@@ -228,6 +229,7 @@ CodePin.propTypes = {
   checkPinCode: PropTypes.func,
   autoFocusFirst: PropTypes.bool,
   obfuscation: PropTypes.bool,
+  passwordText: PropTypes.string,
   pinStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   containerPinStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
@@ -241,6 +243,7 @@ CodePin.defaultProps = {
   checkPinCode: null,
   autoFocusFirst: true,
   obfuscation: false,
+  passwordText: '*',
   text: 'Pin code',
   error: 'Bad pin code.',
   pinStyle: {},
