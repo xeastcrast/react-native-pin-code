@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 import { TextInput, View, Text, TouchableOpacity } from "react-native";
-import SVG, { Circle } from "react-native-svg";
-
+import Pin from "./pin";
 import { codePinStyles } from "./pin-code-style";
 
 class PrettyPin extends Component {
@@ -17,9 +16,11 @@ class PrettyPin extends Component {
 			code: new Array(codeLength).fill(""),
 			edit: null,
 			reset: false,
-			value: ""
+			value: "",
+			previousLength: 0
 		};
 
+		this.pin = [];
 		this.clean = this.clean.bind(this);
 		this.focus = this.focus.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);
@@ -41,10 +42,15 @@ class PrettyPin extends Component {
 			return {
 				code: new Array(prevState.number).fill(""),
 				reset: true,
-				value: ''
+				value: "",
+				previousLength: 0
 			};
-		});
-		this.focus();
+		}, this.focus);
+
+		for (let i = 0; i < this.state.number; i++) {
+			// this.pin[i].hide();
+			setTimeout(this.pin[i].hide, 400);
+		}
 	}
 
 	focus() {
@@ -53,15 +59,31 @@ class PrettyPin extends Component {
 	}
 
 	handleEdit(value) {
-		this.setState({ value: value }, () => {
-			console.log("Number", this.state.value);
-		});
-		// App pass a checkPinCode function
+		if (value.length > this.state.previousLength) {
+			this.pin[value.length-1].show();
+		} else {
+			this.pin[this.state.previousLength].hide();
+		}
+		this.setState(
+			{
+				value: value,
+				previousLength:( value.length > 0 )? (value.length - 1 ): 0,
+				error: false
+			},
+			() => {
+				console.log("Value length", value.length);
+				console.log("Previous length", this.state.previousLength);
+			}
+		);
+		// // App pass a checkPinCode function
 
 		if (this.props.checkPinCode) {
 			this.props.checkPinCode(value, (success = true) => {
 				// App say it's different than code
 				if (!success) {
+					if (this.props.fail) {
+						this.props.fail();
+					}
 					this.setState({
 						error: this.props.error,
 						code: new Array(this.state.number).fill(""),
@@ -69,7 +91,9 @@ class PrettyPin extends Component {
 					});
 				} else {
 					// Is Okay !!!
-					this.props.success();
+					if (this.props.success) {
+						this.props.success();
+					}
 					this.setState(prevState => ({
 						code: value,
 						reset: true
@@ -111,35 +135,18 @@ class PrettyPin extends Component {
 		pins = [];
 		// for (let index = 0; index < this.state.number; index++) {
 		for (let i = 0; i < number; i++) {
-			if (obfuscation) {
-				pins.push(
-					<View
-						key={i}
-						style={{
-							paddingHorizontal: 14,
-							paddingVertical: 18,
-							opacity: i + 1 > value.length ? 0 : 1
-						}}
-					>
-						<SVG width={25} height={25} viewBox="0 0 100 100">
-							<Circle cx="50" cy="50" r="50" fill={pinColor} />
-						</SVG>
-					</View>
-				);
-			} else {
-				pins.push(
-					<View
-						key={i}
-						style={{
-							paddingHorizontal: 14,
-							paddingVertical: 18,
-							opacity: i + 1 > value.length ? 0 : 1
-						}}
-					>
-						<Text>{value[i]}</Text>
-					</View>
-				);
-			}
+			pins.push(
+				<View key={i}>
+					<Pin
+						obfuscation={obfuscation}
+						ref={ref => (this.pin[i] = ref)}
+						pinColor={pinColor}
+						index={i}
+						value={value[i]}
+						styles={codePinStyles.pin}
+					/>
+				</View>
+			);
 		}
 
 		const error = this.state.error ? (
@@ -153,14 +160,13 @@ class PrettyPin extends Component {
 				<Text style={[codePinStyles.text, textStyle]}>{text}</Text>
 
 				{error}
-				<View style={{ opacity: 0, height: 0 }}>
+				<View style={{ opacity: 0, height: 0, margin: 0, padding: 0 }}>
 					<TextInput
 						ref={ref => (this.textInputsRefs = ref)}
 						onChangeText={text => this.handleEdit(text)}
 						value={value}
 						maxLength={number}
 						returnKeyType={"done"}
-						autoCapitalize={"sentences"}
 						autoCorrect={false}
 						autoFocus={true}
 						{...props}
@@ -188,7 +194,8 @@ class PrettyPin extends Component {
 
 PrettyPin.propTypes = {
 	code: PropTypes.string,
-	success: PropTypes.func.isRequired,
+	success: PropTypes.func,
+	fail: PropTypes.func,
 	number: PropTypes.number,
 	checkPinCode: PropTypes.func,
 	autoFocusFirst: PropTypes.bool,

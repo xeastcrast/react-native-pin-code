@@ -18,26 +18,13 @@ export const codePinStyles = StyleSheet.create({
 		marginTop: 20
 	},
 	pin: {
-		backgroundColor: "#F0F0F0",
-		textAlign: "center",
-		flex: 1,
-		marginLeft: 20,
-		marginRight: 20,
-		borderRadius: 5,
-		shadowColor: "#000000",
-		shadowOffset: {
-			width: 1,
-			height: 1
-		},
-		shadowRadius: 5,
-		shadowOpacity: 0.4
+    textAlign: "center",
+    fontSize: 24
 	},
 	text: {
 		textAlign: "center",
-		color: "gray",
 		fontSize: 20,
-		marginTop: 30
-	},
+  },
 	error: {
 		textAlign: "center",
 		color: "red",
