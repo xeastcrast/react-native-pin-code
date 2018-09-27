@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/xeastcrast/react-native-pretty-pincode#readme",
   "dependencies": {
-    "prop-types": "^15.5.10"
+    "prop-types": "^15.5.10",
+    "react-native-svg": "^7.0.3"
   }
 }
