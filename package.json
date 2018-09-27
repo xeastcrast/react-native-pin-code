@@ -1,6 +1,6 @@
 {
   "name": "react-native-pretty-pincode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "pretty pincode component for react-native",
   "main": "pin-code.js",
   "scripts": {
