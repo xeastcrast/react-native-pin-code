@@ -39,11 +39,12 @@ class PrettyPin extends Component {
 	}
 
 	renderPins() {
+    const {obfuscation, pinColor} = this.props
 		return Array.apply(null, { length: this.props.number }).map(
 			(value, key) => (
 				<View key={key}>
 					<Pin
-						obfuscation={this.props.obfuscation}
+						obfuscation={obfuscation}
 						ref={ref => (this.pin[i] = ref)}
 						pinColor={pinColor}
 						index={i}
