@@ -41,7 +41,7 @@ class PrettyPin extends Component {
   renderPins() {
     const { obfuscation, pinColor, number } = this.props;
     const { value } = this.state;
-    return value.slice().map((val, key) => (
+    return value.split('').map((val, key) => (
       <View key={key}>
         <Pin
           obfuscation={obfuscation}
