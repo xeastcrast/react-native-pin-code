@@ -158,19 +158,6 @@ class PrettyPin extends Component {
       <View style={[codePinStyles.container, containerStyle]}>
         {!_.isEmpty(text) && <Text style={[codePinStyles.text, textStyle]}>{text}</Text>}
         {error}
-        <View style={{ opacity: 0, height: 0, margin: 0, padding: 0 }}>
-          <TextInput
-            ref={ref => (this.textInputsRefs = ref)}
-            onChangeText={text => this.handleEdit(text)}
-            value={value}
-            maxLength={number}
-            returnKeyType={"done"}
-            autoCorrect={false}
-            autoFocus={true}
-            {...props}
-          />
-        </View>
-
         <TouchableOpacity onPress={this.focus}>
           <View
             style={[
@@ -185,6 +172,18 @@ class PrettyPin extends Component {
             {pins}
           </View>
         </TouchableOpacity>
+		<View style={{ opacity: 0, height: 0, margin: 0, padding: 0 }}>
+          <TextInput
+            ref={ref => (this.textInputsRefs = ref)}
+            onChangeText={text => this.handleEdit(text)}
+            value={value}
+            maxLength={number}
+            returnKeyType={"done"}
+            autoCorrect={false}
+            autoFocus={true}
+            {...props}
+          />
+        </View>
       </View>
     );
   }
