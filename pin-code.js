@@ -39,24 +39,20 @@ class PrettyPin extends Component {
   }
 
   renderPins() {
-    const { obfuscation, pinColor } = this.props;
-    const { value } = this.state
-    return (
-      <View>
-        {Array.apply(null, { length: this.props.number }).map((val, key) => (
-          <View key={key}>
-            <Pin
-              obfuscation={obfuscation}
-              ref={ref => (this.pin[key] = ref)}
-              pinColor={pinColor}
-              index={key}
-              value={value[key] || ""}
-              styles={codePinStyles.pin}
-            />
-          </View>
-        ))}
+    const { obfuscation, pinColor, number } = this.props;
+    const { value } = this.state;
+    return value.slice().map((val, key) => (
+      <View key={key}>
+        <Pin
+          obfuscation={obfuscation}
+          ref={ref => (this.pin[key] = ref)}
+          pinColor={pinColor}
+          index={key}
+          value={value}
+          styles={codePinStyles.pin}
+        />
       </View>
-    );
+    ));
   }
 
   clean() {
@@ -82,7 +78,12 @@ class PrettyPin extends Component {
 
   handleEdit(value) {
     if (value.length > this.state.previousLength) {
-      this.pin[value.length - 1].show();
+      let ref = this.pin[value.length - 1];
+      ref.show();
+      ref.sneak();
+      if (value.length > 0) {
+        this.pin[this.state.previousLength].unSneak();
+      }
     } else {
       this.pin[this.state.previousLength].hide();
     }
