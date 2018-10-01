@@ -78,9 +78,8 @@ class PrettyPin extends Component {
 
   handleEdit(value) {
     if (value.length > this.state.previousLength) {
-      let ref = this.pin[value.length - 1];
-      ref.show();
-      ref.sneak();
+      this.pin[value.length - 1].show();
+      this.pin[value.length - 1].sneak();
       if (value.length > 0) {
         this.pin[this.state.previousLength].unSneak();
       }
