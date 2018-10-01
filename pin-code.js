@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 import { TextInput, View, Text, TouchableOpacity } from "react-native";
+import _ from 'lodash'
 import Pin from "./pin";
 import { codePinStyles } from "./pin-code-style";
 
@@ -155,7 +156,7 @@ class PrettyPin extends Component {
 
     return (
       <View style={[codePinStyles.container, containerStyle]}>
-        {text && <Text style={[codePinStyles.text, textStyle]}>{text}</Text>}
+        {!_.isEmpty(text) && <Text style={[codePinStyles.text, textStyle]}>{text}</Text>}
         {error}
         <View style={{ opacity: 0, height: 0, margin: 0, padding: 0 }}>
           <TextInput
@@ -214,7 +215,7 @@ PrettyPin.defaultProps = {
   obfuscation: false,
   passwordText: "*",
   pinColor: "#000",
-  text: "Pin code",
+  text: "",
   error: "Bad pin code.",
   pinStyle: {},
   containerPinStyle: {},
