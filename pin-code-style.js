@@ -5,11 +5,12 @@ const { height, width } = Dimensions.get("window");
 export const codePinStyles = StyleSheet.create({
 	container: {
 		height: 150,
-		width: width - 30,
-		backgroundColor: "#FFF"
+		width: '100%',
+		backgroundColor: "#FFF",
+		paddingHorizontal: 10
 	},
 	containerPin: {
-		width: width - 30,
+		width: '100%',
 		minHeight: 60,
 		flexDirection: "row",
 		flexWrap: "wrap",
