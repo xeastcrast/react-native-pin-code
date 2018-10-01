@@ -43,7 +43,7 @@ class PrettyPin extends Component {
 			(value, key) => (
 				<View key={key}>
 					<Pin
-						obfuscation={obfuscation}
+						obfuscation={this.props.obfuscation}
 						ref={ref => (this.pin[i] = ref)}
 						pinColor={pinColor}
 						index={i}
