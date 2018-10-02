@@ -16,6 +16,8 @@ export default class Dot extends React.Component {
     super(props);
     this.show = this.show.bind(this);
     this.hide = this.hide.bind(this);
+    this.sneak = this.sneak.bind(this);
+    this.unSneak = this.unSneak.bind(this);
     this.sneakTimeout = setTimeout(() => {}, 0);
   }
 
@@ -24,7 +26,17 @@ export default class Dot extends React.Component {
   };
 
   sneak() {
-    this.sneakTimeout = setTimeout(() => this.setState({ sneak: false }), 500);
+    this.setState(
+      {
+        sneak: true
+      },
+      () => {
+        this.sneakTimeout = setTimeout(
+          () => this.setState({ sneak: false }),
+          500
+        );
+      }
+    );
   }
 
   unSneak() {
